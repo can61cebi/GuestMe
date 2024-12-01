@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ property.title }}{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ property.title }}</h2>
+    <p>{{ property.description }}</p>
+    <p><strong>Fiyat:</strong> {{ property.price }} TL</p>
+    <p><strong>Adres:</strong> {{ property.location }}</p>
+    <!-- Harita Alanı -->
+    <div id="map" style="height: 400px;"></div>
+    <!-- Rezervasyon ve diğer bilgiler burada olabilir -->
+</div>
+
+<!-- Google Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
+
+<script>
+    function initMap() {
+        var propertyLocation = {lat: {{ property.latitude }}, lng: {{ property.longitude }}};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: propertyLocation
+        });
+        var marker = new google.maps.Marker({
+            position: propertyLocation,
+            map: map,
+            title: '{{ property.title }}'
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Ev Ekle{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Yeni Ev Ekle</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.location.label }}
+            {{ form.location(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.price.label }}
+            {{ form.price(class="form-control") }}
+        </div>
+        <!-- Harita Alanı -->
+        <div class="form-group">
+            <label for="map">Konum Seçin:</label>
+            <div id="map" style="height: 400px;"></div>
+        </div>
+        <!-- Gizli Alanlar -->
+        {{ form.latitude(id="latitude") }}
+        {{ form.longitude(id="longitude") }}
+        <button type="submit" class="btn btn-primary">Evi Ekle</button>
+    </form>
+</div>
+
+<!-- Google Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
+
+<script>
+    function initMap() {
+        var büyükçekmece = {lat: 41.0214, lng: 28.5960}; // Büyükçekmece'nin koordinatları
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: büyükçekmece
+        });
+
+        var marker;
+
+        google.maps.event.addListener(map, 'click', function(event) {
+            placeMarker(event.latLng);
+        });
+
+        function placeMarker(location) {
+            if (marker) {
+                marker.setPosition(location);
+            } else {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+            // Enlem ve boylam değerlerini form alanlarına atıyoruz
+            document.getElementById("latitude").value = location.lat();
+            document.getElementById("longitude").value = location.lng();
+        }
+    }
+</script>
+{% endblock %}

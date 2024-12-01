@@ -22,7 +22,8 @@ class Property(db.Model):
     description = db.Column(db.Text, nullable=False)
     location = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Float, nullable=False)
-    image_path = db.Column(db.String(100), nullable=True)
+    latitude = db.Column(db.Float, nullable=False)  # Enlem
+    longitude = db.Column(db.Float, nullable=False)  # Boylam
 
     # İlişkiler
     reservations = db.relationship('Reservation', backref='property', lazy=True)

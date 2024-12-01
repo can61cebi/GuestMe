@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Harita{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Harita Üzerinde Evler</h2>
+    <div id="map" style="height: 500px;"></div>
+</div>
+
+<!-- Google Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
+
+<script>
+    function initMap() {
+        var büyükçekmece = {lat: 41.0214, lng: 28.5960}; // Büyükçekmece'nin koordinatları
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: büyükçekmece
+        });
+
+        // Evlerin konumlarını marker olarak ekleyelim
+        {% for property in properties %}
+        var marker = new google.maps.Marker({
+            position: {lat: {{ property.latitude }}, lng: {{ property.longitude }}},
+            map: map,
+            title: '{{ property.title }}'
+        });
+
+        // Marker'a tıklandığında evin detay sayfasına yönlendirelim
+        (function(marker, propertyId) {
+            google.maps.event.addListener(marker, 'click', function() {
+                window.location.href = "{{ url_for('property_detail', property_id='') }}" + propertyId;
+            });
+        })(marker, {{ property.id }});
+
+        {% endfor %}
+    }
+</script>
+{% endblock %}
