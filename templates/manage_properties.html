@@ -15,6 +15,12 @@
             <td>{{ property.title }}</td>
             <td>
                 <a href="{{ url_for('manage_property_availability', property_id=property.id) }}" class="btn btn-primary btn-sm">Müsaitlik Düzenle</a>
+
+                <!-- Ev Silme Butonu -->
+                <form method="POST" action="{{ url_for('delete_property', property_id=property.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Bu evi silmek istediğinize emin misiniz? Bu işlem geri alınamaz.')">Sil</button>
+                </form>
             </td>
         </tr>
     {% endfor %}

@@ -29,9 +29,8 @@ class Property(db.Model):
     latitude = db.Column(db.Float, nullable=False)  # Enlem
     longitude = db.Column(db.Float, nullable=False)  # Boylam
 
-    # İlişkiler
-    reservations = db.relationship('Reservation', backref='property', lazy=True)
-    availabilities = db.relationship('Availability', backref='property', lazy=True)
+    reservations = db.relationship('Reservation', backref='property', lazy=True, cascade="all, delete-orphan")
+    availabilities = db.relationship('Availability', backref='property', lazy=True, cascade="all, delete-orphan")
 
     def has_future_availability(self):
         # Bu fonksiyon artık sadece renk belirlemek için değil,

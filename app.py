@@ -193,6 +193,34 @@ def manage_properties():
     properties = Property.query.filter_by(host_id=current_user.id).all()
     return render_template('manage_properties.html', properties=properties)
 
+
+@app.route('/delete_property/<int:property_id>', methods=['POST'])
+@login_required
+def delete_property(property_id):
+    if current_user.role != 'host':
+        flash('Bu işleme izniniz yok.', 'danger')
+        return redirect(url_for('index'))
+
+    property = Property.query.get_or_404(property_id)
+    if property.host_id != current_user.id:
+        flash('Bu evi silme yetkiniz yok.', 'danger')
+        return redirect(url_for('manage_properties'))
+
+    # Rezervasyonları iptal et
+    # Bu evle ilgili tüm pending veya approved rezervasyonlar iptal ediliyor.
+    reservations = Reservation.query.filter_by(property_id=property.id).all()
+    for r in reservations:
+        if r.status in ['pending', 'approved']:
+            r.status = 'canceled'
+            r.cancel_reason = 'Ev sahibi evi sildiği için kiralama iptal edildi.'
+
+    # Ev veritabanından siliniyor
+    db.session.delete(property)
+    db.session.commit()
+
+    flash('Ev başarıyla silindi. İlgili rezervasyonlar da iptal edildi.', 'success')
+    return redirect(url_for('manage_properties'))
+
 @app.route('/manage_property_availability/<int:property_id>', methods=['GET', 'POST'])
 @login_required
 def manage_property_availability(property_id):
