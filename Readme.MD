@@ -94,10 +94,10 @@
 ## Screenshots
 
 ### Main Screen:
-<img src="https://github.com/can61cebi/CanAir/blob/main/Development_Stage_01.png" width="400">
+<img src="https://github.com/can61cebi/GuestMe/blob/master/images/2.png" width="400">
 
 ### Property Detail Page:
-<img src="https://github.com/can61cebi/CanAir/blob/main/Development_Stage_01.png" width="400">
+<img src="https://github.com/can61cebi/GuestMe/blob/master/images/1.png" width="400">
 
 ---
 
