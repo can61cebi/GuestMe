@@ -1,5 +1,6 @@
+# forms.py
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, FloatField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, FloatField, HiddenField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 class RegistrationForm(FlaskForm):
@@ -23,3 +24,8 @@ class PropertyForm(FlaskForm):
     latitude = HiddenField('Enlem', validators=[DataRequired()])
     longitude = HiddenField('Boylam', validators=[DataRequired()])
     submit = SubmitField('Evi Ekle')
+
+class AvailabilityForm(FlaskForm):
+    start_date = DateField('Başlangıç Tarihi', validators=[DataRequired()])
+    end_date = DateField('Bitiş Tarihi', validators=[DataRequired()])
+    submit = SubmitField('Müsaitlik Ayarla')

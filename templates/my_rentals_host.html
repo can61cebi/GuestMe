@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Gelen Rezervasyonlar{% endblock %}
+{% block content %}
+<h2>Gelen Rezervasyonlar</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ev Başlığı</th>
+            <th>Kullanıcı</th>
+            <th>Durum</th>
+            <th>Başlangıç Tarihi</th>
+            <th>Bitiş Tarihi</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for res in reservations %}
+        <tr>
+            <td>{{ res.property.title }}</td>
+            <td>{{ res.user.username }}</td>
+            <td>{{ res.status }}</td>
+            <td>{{ res.start_date }}</td>
+            <td>{{ res.end_date }}</td>
+            <td>
+                {% if res.status == 'pending' %}
+                <form method="POST" action="{{ url_for('approve_reservation', reservation_id=res.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-success btn-sm">Onayla</button>
+                </form>
+                <form method="POST" action="{{ url_for('reject_reservation', reservation_id=res.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
+                </form>
+                {% else %}
+                İşlem Yok
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -6,26 +6,99 @@
     <p>{{ property.description }}</p>
     <p><strong>Fiyat:</strong> {{ property.price }} TL</p>
     <p><strong>Adres:</strong> {{ property.location }}</p>
+
     <!-- Harita Alanı -->
-    <div id="map" style="height: 400px;"></div>
-    <!-- Rezervasyon ve diğer bilgiler burada olabilir -->
+    <div id="map" style="height: 400px; margin-bottom:20px;"></div>
+
+    {% if current_user.is_authenticated and current_user.role == 'user' %}
+    <h4>Müsaitlik Durumu</h4>
+    <p>Takvimde beyaz görünen aralıklar müsait, gri olanlar müsait değil.</p>
+    <form method="POST" action="{{ url_for('book_property', property_id=property.id) }}">
+        <div class="mb-3">
+            <label for="date_range">Başlangıç Tarihi:</label>
+            <input type="text" id="date_range" name="start_date" class="form-control" placeholder="Başlangıç tarihi" readonly>
+
+            <label for="end_range" class="mt-2">Bitiş Tarihi:</label>
+            <input type="text" id="end_range" name="end_date" class="form-control mt-2" placeholder="Bitiş tarihi" readonly>
+        </div>
+        <button type="submit" class="btn btn-success">Kirala</button>
+    </form>
+    {% else %}
+    <p>Rezervasyon yapmak için giriş yapmalısınız.</p>
+    {% endif %}
 </div>
 
 <!-- Google Maps JavaScript API -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
-
 <script>
     function initMap() {
-        var propertyLocation = {lat: {{ property.latitude }}, lng: {{ property.longitude }}};
-        var map = new google.maps.Map(document.getElementById('map'), {
+        const propertyLocation = {lat: {{ property.latitude }}, lng: {{ property.longitude }}};
+        const map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
             center: propertyLocation
         });
-        var marker = new google.maps.Marker({
+        new google.maps.Marker({
             position: propertyLocation,
             map: map,
             title: '{{ property.title }}'
         });
     }
+</script>
+
+<script>
+    const availabilities = {{ availabilities|tojson }};
+    const reservedRanges = {{ reserved_ranges|tojson }};
+
+    function isDateInAvailabilities(date) {
+        for (const av of availabilities) {
+            const avStart = new Date(av.start + "T00:00:00Z");
+            const avEnd = new Date(av.end + "T00:00:00Z");
+            if (date >= avStart && date <= avEnd) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isDateReserved(date) {
+        for (const rr of reservedRanges) {
+            const rrStart = new Date(rr.start + "T00:00:00Z");
+            const rrEnd = new Date(rr.end + "T00:00:00Z");
+            if (date >= rrStart && date <= rrEnd) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function enableDates(date) {
+        return isDateInAvailabilities(date) && !isDateReserved(date);
+    }
+
+    const fpStart = flatpickr("#date_range", {
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        disable: [
+            function(date) {
+                // Bu fonksiyon true dönerse tarih devre dışı kalır
+                return !enableDates(date);
+            }
+        ],
+        onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length > 0) {
+                fpEnd.set('minDate', dateStr);
+            }
+        }
+    });
+
+    const fpEnd = flatpickr("#end_range", {
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        disable: [
+            function(date) {
+                return !enableDates(date);
+            }
+        ]
+    });
 </script>
 {% endblock %}

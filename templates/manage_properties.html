@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Evlerimi Yönet{% endblock %}
+{% block content %}
+<h2>Evlerimi Yönet</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ev Başlığı</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for property in properties %}
+        <tr>
+            <td>{{ property.title }}</td>
+            <td>
+                <a href="{{ url_for('manage_property_availability', property_id=property.id) }}" class="btn btn-primary btn-sm">Müsaitlik Düzenle</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

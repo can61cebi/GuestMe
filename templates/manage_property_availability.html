@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Müsaitlik Ayarla{% endblock %}
+{% block content %}
+<h2>{{ property.title }} için Müsaitlik Ayarla</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.start_date.label }}
+        {{ form.start_date(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.end_date.label }}
+        {{ form.end_date(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-success">Müsaitlik Ayarla</button>
+</form>
+
+<h3>Mevcut Müsaitlikler</h3>
+<ul>
+    {% for av in availabilities %}
+    <li>{{ av.start_date }} - {{ av.end_date }}</li>
+    {% endfor %}
+</ul>
+
+<script>
+    // flatpickr ile tarih seçimi
+    flatpickr("input[name='start_date']", {dateFormat: "Y-m-d"});
+    flatpickr("input[name='end_date']", {dateFormat: "Y-m-d"});
+</script>
+{% endblock %}

@@ -8,30 +8,35 @@
 
 <!-- Google Maps JavaScript API -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
-
 <script>
     function initMap() {
-        var büyükçekmece = {lat: 41.0214, lng: 28.5960}; // Büyükçekmece'nin koordinatları
-        var map = new google.maps.Map(document.getElementById('map'), {
+        const büyükçekmece = {lat: 41.0214, lng: 28.5960};
+        const map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
             center: büyükçekmece
         });
 
-        // Evlerin konumlarını marker olarak ekleyelim
         {% for property in properties %}
-        var marker = new google.maps.Marker({
-            position: {lat: {{ property.latitude }}, lng: {{ property.longitude }}},
-            map: map,
-            title: '{{ property.title }}'
-        });
+        {
+            // Rengi get_marker_color fonksiyonuna göre belirleyelim
+            const markerColor = "{{ property.get_marker_color() }}";
+            const content = document.createElement("div");
+            content.style.backgroundColor = markerColor;
+            content.style.width = "20px";
+            content.style.height = "20px";
+            content.style.borderRadius = "50%";
 
-        // Marker'a tıklandığında evin detay sayfasına yönlendirelim
-        (function(marker, propertyId) {
-            google.maps.event.addListener(marker, 'click', function() {
-                window.location.href = "{{ url_for('property_detail', property_id='') }}" + propertyId;
+            const marker = new google.maps.marker.AdvancedMarkerElement({
+                position: {lat: {{ property.latitude }}, lng: {{ property.longitude }}},
+                map: map,
+                title: '{{ property.title }}',
+                content: content
             });
-        })(marker, {{ property.id }});
 
+            marker.addListener('gmp-click', () => {
+                window.location.href = "{{ url_for('property_detail', property_id=property.id) }}";
+            });
+        }
         {% endfor %}
     }
 </script>

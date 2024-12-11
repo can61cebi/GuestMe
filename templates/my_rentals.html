@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Kiraladığım Evler{% endblock %}
+{% block content %}
+<h2>Kiraladığım Evler</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ev Başlığı</th>
+            <th>Durum</th>
+            <th>Başlangıç Tarihi</th>
+            <th>Bitiş Tarihi</th>
+            <th>İptal Nedeni</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for res in reservations %}
+        <tr>
+            <td><a href="{{ url_for('property_detail', property_id=res.property_id) }}">{{ res.property.title }}</a></td>
+            <td>{{ res.status }}</td>
+            <td>{{ res.start_date }}</td>
+            <td>{{ res.end_date }}</td>
+            <td>{{ res.cancel_reason }}</td>
+            <td>
+                {% if res.status in ['pending', 'approved'] %}
+                <form method="POST" action="{{ url_for('cancel_reservation', reservation_id=res.id) }}">
+                    <button type="submit" class="btn btn-danger btn-sm">İptal Et</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

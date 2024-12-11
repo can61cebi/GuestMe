@@ -23,38 +23,43 @@
 
 <!-- Google Maps JavaScript API -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
-
 <script>
     function initMap() {
-        var büyükçekmece = {lat: 41.0214, lng: 28.5960}; // Büyükçekmece'nin koordinatları
-        var map = new google.maps.Map(document.getElementById('map'), {
+        const büyükçekmece = {lat: 41.0214, lng: 28.5960};
+        const map = new google.maps.Map(document.getElementById('map'), {
             zoom: 13,
             center: büyükçekmece
         });
 
-        // Evlerin konumlarını marker olarak ekleyelim
         {% for property in properties %}
-        var marker = new google.maps.Marker({
-            position: {lat: {{ property.latitude }}, lng: {{ property.longitude }}},
-            map: map,
-            title: '{{ property.title }}'
-        });
+        {
+            // Rengi get_marker_color fonksiyonuna göre belirleyelim
+            const color = "{{ property.get_marker_color() }}";
 
-        // Marker'a tıklandığında işlem yapalım
-        (function(marker) {
-            google.maps.event.addListener(marker, 'click', function() {
+            const marker = new google.maps.Marker({
+                position: {lat: {{ property.latitude }}, lng: {{ property.longitude }}},
+                map: map,
+                title: '{{ property.title }}',
+                icon: {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 10,
+                  fillColor: color,
+                  fillOpacity: 1,
+                  strokeWeight: 1
+                }
+            });
+
+            // Marker'a tıklandığında detay sayfasına git
+            marker.addListener('click', () => {
                 {% if current_user.is_authenticated %}
                     window.location.href = "{{ url_for('property_detail', property_id=property.id) }}";
                 {% else %}
                     alert("Kullanıcı girişi yapmadan işlem gerçekleştirilemez!");
                 {% endif %}
             });
-        })(marker);
-
+        }
         {% endfor %}
     }
-
-    // Fonksiyonu global hale getirelim
     window.initMap = initMap;
 </script>
 {% endblock %}
