@@ -49,11 +49,19 @@
     const availabilities = {{ availabilities|tojson }};
     const reservedRanges = {{ reserved_ranges|tojson }};
 
+    // Düzgün tarih formatı oluşturma: YYYY-MM-DD
+    function dateToYMD(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
     function isDateInAvailabilities(date) {
+        const dStr = dateToYMD(date);
         for (const av of availabilities) {
-            const avStart = new Date(av.start + "T00:00:00Z");
-            const avEnd = new Date(av.end + "T00:00:00Z");
-            if (date >= avStart && date <= avEnd) {
+            // availabilities: {start: '2024-12-26', end: '2024-12-28'}
+            if (dStr >= av.start && dStr <= av.end) {
                 return true;
             }
         }
@@ -61,10 +69,10 @@
     }
 
     function isDateReserved(date) {
+        const dStr = dateToYMD(date);
         for (const rr of reservedRanges) {
-            const rrStart = new Date(rr.start + "T00:00:00Z");
-            const rrEnd = new Date(rr.end + "T00:00:00Z");
-            if (date >= rrStart && date <= rrEnd) {
+            // reservedRanges: {start: '2024-12-27', end: '2024-12-28'}
+            if (dStr >= rr.start && dStr <= rr.end) {
                 return true;
             }
         }
@@ -72,6 +80,7 @@
     }
 
     function enableDates(date) {
+        // Tarih availability içinde ve rezervasyonlu değilse true
         return isDateInAvailabilities(date) && !isDateReserved(date);
     }
 
@@ -80,7 +89,6 @@
         minDate: "today",
         disable: [
             function(date) {
-                // Bu fonksiyon true dönerse tarih devre dışı kalır
                 return !enableDates(date);
             }
         ],
@@ -101,4 +109,5 @@
         ]
     });
 </script>
+
 {% endblock %}
