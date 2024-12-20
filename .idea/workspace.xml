@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33bb4355-f1de-4b36-929d-9da3899c7d14" name="Changes" comment="edit: Readme.MD images changed">
+    <list default="true" id="33bb4355-f1de-4b36-929d-9da3899c7d14" name="Changes" comment="edit: first day of rental bug fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/property_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/property_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/manage_property_availability.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/manage_property_availability.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,6 +127,13 @@
       <workItem from="1733937309468" duration="1175000" />
       <workItem from="1733993553844" duration="311000" />
       <workItem from="1733995034717" duration="3013000" />
+      <workItem from="1734170169917" duration="48000" />
+      <workItem from="1734171955758" duration="1547000" />
+      <workItem from="1734282881992" duration="10000" />
+      <workItem from="1734519674215" duration="2435000" />
+      <workItem from="1734598932067" duration="249000" />
+      <workItem from="1734599502629" duration="2737000" />
+      <workItem from="1734688929196" duration="499000" />
     </task>
     <task id="LOCAL-00001" summary="add: first project template has added">
       <option name="closed" value="true" />
@@ -193,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733937892545</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="edit: first day of rental bug fixed">
+      <option name="closed" value="true" />
+      <created>1734170205469</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1734170205469</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,10 +225,11 @@
     <MESSAGE value="add: free, pending, approved colors for map marker" />
     <MESSAGE value="add: Readme.MD" />
     <MESSAGE value="edit: Readme.MD images changed" />
-    <option name="LAST_COMMIT_MESSAGE" value="edit: Readme.MD images changed" />
+    <MESSAGE value="edit: first day of rental bug fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit: first day of rental bug fixed" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/GuestMe$app.coverage" NAME="app Coverage Results" MODIFIED="1733997827078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GuestMe$app.coverage" NAME="app Coverage Results" MODIFIED="1734601359153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GuestMe$extension.coverage" NAME="extension Coverage Results" MODIFIED="1733066802551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.venv/Lib/site-packages/flask_sqlalchemy" />
     <SUITE FILE_PATH="coverage/GuestMe$main.coverage" NAME="app Coverage Results" MODIFIED="1733067368424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
