@@ -98,7 +98,3 @@
 
 ### Property Detail Page:
 <img src="https://github.com/can61cebi/GuestMe/blob/master/images/1.png" width="400">
-
----
-
-If you need help choosing a license, you can start here: https://choosealicense.com/
